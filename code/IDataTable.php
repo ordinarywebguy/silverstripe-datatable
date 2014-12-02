@@ -1,9 +1,7 @@
 <?php
 interface IDataTable {
 	
-	
 	public function getDTColumns();
-	
 	public function getDTFields();
 	public function getDTLimit();
 	public function getDTDefaultOrder();

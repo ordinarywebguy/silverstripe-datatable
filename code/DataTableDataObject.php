@@ -1,9 +1,10 @@
 <?php
 class DataTableDataObject extends DataExtension implements IDataTable, TemplateGlobalProvider{
 
-	public $dtColumns, 
-		$dtFields, 
-		$dtDefaultOrder,
+	private 
+		//$dtColumns, 
+		//$dtFields, 
+		//$dtDefaultOrder,
 		
 		$dtLimit = '10', 
 		$dtDefaultDirection = 'ASC';	
@@ -16,50 +17,49 @@ class DataTableDataObject extends DataExtension implements IDataTable, TemplateG
 		
 		
 	public function getDTColumns() {
-		if(is_null($this->owner->dtColumns)) {
-			return new UnexpectedValueException("Must override \$dtColumns property in " . get_class($this->owner));
+		$dtColumns = Config::inst()->get(get_class($this->owner), 'dtColumns');
+		if(is_null($dtColumns)) {
+			return new UnexpectedValueException("Must set private static \$dtColumns in " . get_class($this->owner));
 		}
-		
-		return $this->owner->dtColumns;
+		return $dtColumns;
 	}
 	
 	public function getDTFields() {
-		if(is_null($this->owner->dtFields)) {
-			return new UnexpectedValueException("Must override \$dtFields property in " . get_class($this->owner));
+		$dtFields = Config::inst()->get(get_class($this->owner), 'dtFields');
+		if(is_null($dtFields)) {
+			return new UnexpectedValueException("Must set private static \$dtFields in " . get_class($this->owner));
 		}
-		
-		return $this->owner->dtFields;
+		return $dtFields;
 	}
 	
 	public function getDTDefaultOrder() {
-		if(is_null($this->owner->dtDefaultOrder)) {
-			return new UnexpectedValueException("Must override \$dtDefaultOrder property in " . get_class($this->owner));
+		$dtDefaultOrder = Config::inst()->get(get_class($this->owner), 'dtDefaultOrder');
+		if(is_null($dtDefaultOrder)) {
+			return new UnexpectedValueException("Must set private static \$dtDefaultOrder in " . get_class($this->owner));
 		}
-		return $this->owner->dtDefaultOrder;
+		return $dtDefaultOrder;
 	}
 	
 	public function getDTDefaultDirection() {
-		if(property_exists($this->owner, 'dtDefaultDirection')) {
-			return $this->owner->dtDefaultDirection;
-		} else {
+		$dtDefaultDirection = Config::inst()->get(get_class($this->owner), 'dtDefaultDirection');
+		if(is_null($dtDefaultDirection)) {
 			return $this->dtDefaultDirection;
-		}	
+		}
+		return $dtDefaultDirection;
 	}
 
 	public function getDTLimit() {
-		if(property_exists($this->owner, 'dtLimit')) {
-			return $this->owner->dtLimit;
-		} else {
+		$dtLimit = Config::inst()->get(get_class($this->owner), 'dtLimit');
+		if(is_null($dtLimit)) {
 			return $this->dtLimit;
 		}
+		return $dtLimit;
 	}
 	
 	
 	public function getDTDataList() {
 		return $this->owner->get();
 	}
-
-	
 	
 	public static function getDTColumnsAsList() {
 		$fields = singleton(Session::get('DataTableDataObject.modelClass'))->getDTColumns() ; //new ArrayList();
@@ -77,7 +77,6 @@ class DataTableDataObject extends DataExtension implements IDataTable, TemplateG
 	public static function get_template_global_variables() {
 		return array(
 			'DTColumns' => 'getDTColumnsAsList',
-
 		);
 	}
 		

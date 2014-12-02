@@ -1,7 +1,7 @@
 <?php
 class DataTableControllerExtension extends Extension {
 	
-	public static $allowed_actions = array('jsonlist', 'index', 'add', 'edit', 'view', 'doSave', 'doDelete');
+	private static $allowed_actions = array('jsonlist', 'index', 'add', 'edit', 'view', 'doSave', 'doDelete');
 	
 	public function onAfterInit() {
 		Session::set('DataTableDataObject.modelClass', $this->owner->modelClass);
@@ -175,12 +175,8 @@ class DataTableControllerExtension extends Extension {
 			$delete->addExtraClass('btn btn-danger action_doDelete');
 		}
 		
-		//$form = new Form($this->owner, $this->owner->modelClass.'Form', $fields, $actions, $validator);
-		
-		$form = BootstrapForm::create($this->owner, $this->owner->modelClass.'Form', $fields, $actions, $validator);
-		
+		$form = new Form($this->owner, $this->owner->modelClass.'Form', $fields, $actions, $validator);
 		$form->loadDataFrom($record);
-		
 		
 		$form->setAttribute('dtvalidation', FormUtil::validatorSchemeAsJson($form, $validator));
 		FormUtil::addJSValidation($form, $validator);
