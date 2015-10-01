@@ -1,6 +1,6 @@
 Silverstripe DataTable
  
-This module for silverstripe project w/c requires for customize dashboard layout.
+A silverstripe module that provides slick way of extending silverstripe project that requires customize CMS layout.
  
 Features:
 - Enables creation of CRUD stuff using DataTable::getFrontendFields
